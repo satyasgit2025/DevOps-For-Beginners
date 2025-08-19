@@ -1,6 +1,9 @@
-Create a user who cannot log into shell (Non-Interactive Shell).
+# Create a user who cannot log into shell (Non-Interactive Shell).
+
   Let's assume that user is satya, below commands will be used to meet the requirement.
+  
     Access the required server go at root user by using command sudo -i
+    
   [root@server ~]$ useradd satya
 "[root@server  ~]$ getent passwd satya
 satya:x:1002:1002::/home/satya:/bin/bash
