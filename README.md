@@ -1,7 +1,7 @@
 # DevOps-For-Beginners
 This repository documents the daily operations of DevOps engineers.
 
-Day 1: Create a linux user who cannot log into shell (Non-Interactive Shell).
+# Day 1: Create a linux user who cannot log into shell (Non-Interactive Shell).
 
 We can achieve this by /sbin/nologin or /bin/false
 
