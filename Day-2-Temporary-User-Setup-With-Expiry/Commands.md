@@ -1,4 +1,4 @@
-Created user mariyam
+Create user mariyam
 ```
 [root@stapp03 ~]# useradd mariyam  
 ```
