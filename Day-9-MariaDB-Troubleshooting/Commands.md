@@ -43,16 +43,14 @@ chmod 755 /run/mariadb
 7: start the MariaDB servic3.
 ```
 systemctl start mariadb
-
-8: Permanent Fix Steps
-
-To enable it for MariaDB add below
+```
+8: Permanent Fix Steps, enable it for MariaDB add below
 ```
 systemctl edit mariadb
 ```
 RuntimeDirectory=mariadb
 RuntimeDirectoryMode=0755
-
+```
 Reload systemd and restart MariaDB
 ```
 systemctl daemon-reexec
