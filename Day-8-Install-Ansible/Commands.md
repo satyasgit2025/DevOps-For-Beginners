@@ -21,7 +21,7 @@ pip3 install --upgrade pip setuptools wheel
 pip3 --version
 which pip3
 python3 -m pip --version
-
+```
 5:Install Ansible version 4.8.0 using pip3.
 ```
 python3 -m pip install 'ansible==4.8.0' #This installs Ansible 4.8.0 globally (for all users) when run as root.
