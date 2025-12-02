@@ -8,7 +8,7 @@ On the Jump Host:
 
 ```
 scp -o StrictHostKeyChecking=no /tmp/ROOT.war steve@stapp02.stratos.xfusioncorp.com:/tmp/
-``
+
 
 2️⃣ Logged into App Server 2
 
