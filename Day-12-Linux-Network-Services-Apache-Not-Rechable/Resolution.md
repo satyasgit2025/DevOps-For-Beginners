@@ -2,8 +2,8 @@
 ```
 curl http://app01:6300
 ```
-Got the below output
-# curl: (7) Failed to connect to stapp01 port 6300: No route to host
+Output:
+curl: (7) Failed to connect to stapp01 port 6300: No route to host
 
 2: SSH to App Server from jump host.
 ```
@@ -16,9 +16,10 @@ sudo systemctl status httpd
 httpd.service was in failed state.
 Error message indicated an address binding issue
 
-# (98)Address already in use: AH00072: make_sock: could not bind to address 0.0.0.0:6300
-# no listening sockets available, shutting down
-# AH00015: Unable to open logs
+Output:
+(98)Address already in use: AH00072: make_sock: could not bind to address 0.0.0.0:6300
+no listening sockets available, shutting down
+AH00015: Unable to open logs
 
 This indicated that port 6300 was already in use by another process.
 
@@ -26,8 +27,8 @@ This indicated that port 6300 was already in use by another process.
 ```
 sudo netstat -tulnp | grep 6300
 ```
-# Output:
-# tcp 0 0 127.0.0.1:6300 0.0.0.0:* LISTEN 503/sendmail: accep
+Output:
+tcp 0 0 127.0.0.1:6300 0.0.0.0:* LISTEN 503/sendmail: accep
 
 Port 6300 was already in use by sendmail.
 Apache could not bind to port 6300 because of this conflict.
@@ -36,8 +37,8 @@ Apache could not bind to port 6300 because of this conflict.
 ```
 sudo grep -R "Listen" /etc/httpd -n
 ```
-# Output:
-# /etc/httpd/conf/httpd.conf:45:Listen 6300
+Output:
+/etc/httpd/conf/httpd.conf:45:Listen 6300
 
 Apache was correctly configured to listen on port 6300.
 Main issue was port conflict, not configuration.
@@ -46,7 +47,8 @@ Main issue was port conflict, not configuration.
 ```
 sudo netstat -tulnp | grep 6300
 ```
-# tcp 0 0 127.0.0.1:6300 0.0.0.0:* LISTEN 503/sendmail: accep
+Output:
+tcp 0 0 127.0.0.1:6300 0.0.0.0:* LISTEN 503/sendmail: accep
 
 Kill the process:
 ```
@@ -56,7 +58,8 @@ Re-check:
 ```
 sudo netstat -tulnp | grep 6300
 ```
-# (no output – port 6300 is now free)
+Output:
+(no output – port 6300 is now free)
 
 7: Start Apache
 ```
@@ -67,8 +70,8 @@ Check if Apache is now listening on port 6300:
 ```
 sudo netstat -tulnp | grep 6300
 ```
-# Output:
-# tcp 0 0 0.0.0.0:6300 0.0.0.0:* LISTEN 1194/httpd
+Output:
+tcp 0 0 0.0.0.0:6300 0.0.0.0:* LISTEN 1194/httpd
 Apache is now listening on 0.0.0.0:6300 (all interfaces), not just 127.0.0.1.
 
 8:Firewall / Network Layer Check in app server.
@@ -76,7 +79,9 @@ Checked firewalld was Not Installed
 ```
 sudo firewall-cmd --list-all
 ```
-# sudo: firewall-cmd: command not found
+Output:
+sudo: firewall-cmd: command not found
+
 This indicates firewalld is not installed or not being used.
 The system is instead using iptables.
 
@@ -84,14 +89,14 @@ So need to Check iptables Rules
 ```
 sudo iptables -L -n
 ```
-# Output (relevant):
-# Chain INPUT (policy ACCEPT)
-# target     prot opt source     destination
-# ACCEPT     all  --  0.0.0.0/0  0.0.0.0/0  state RELATED,ESTABLISHED
-# ACCEPT     icmp --  0.0.0.0/0  0.0.0.0/0
-# ACCEPT     all  --  0.0.0.0/0  0.0.0.0/0
-# ACCEPT     tcp  --  0.0.0.0/0  0.0.0.0/0  state NEW tcp dpt:22
-# REJECT     all  --  0.0.0.0/0  0.0.0.0/0  reject-with icmp-host-prohibited
+Output (relevant):
+Chain INPUT (policy ACCEPT)
+target     prot opt source     destination
+ACCEPT     all  --  0.0.0.0/0  0.0.0.0/0  state RELATED,ESTABLISHED
+ACCEPT     icmp --  0.0.0.0/0  0.0.0.0/0
+ACCEPT     all  --  0.0.0.0/0  0.0.0.0/0
+ACCEPT     tcp  --  0.0.0.0/0  0.0.0.0/0  state NEW tcp dpt:22
+REJECT     all  --  0.0.0.0/0  0.0.0.0/0  reject-with icmp-host-prohibited
 There is a REJECT rule at the end of INPUT chain.
 Port 6300 was not explicitly allowed, so traffic to port 6300 would be rejected.
 
@@ -103,15 +108,15 @@ Verify the updated rules:
 ``
 sudo iptables -L -n
 ```
-# Now shows:
-# Chain INPUT (policy ACCEPT)
-# target     prot opt source     destination
-# ACCEPT     tcp  --  0.0.0.0/0  0.0.0.0/0  tcp dpt:6300
-# ACCEPT     all  --  0.0.0.0/0  0.0.0.0/0  state RELATED,ESTABLISHED
-# ACCEPT     icmp --  0.0.0.0/0  0.0.0.0/0
-# ACCEPT     all  --  0.0.0.0/0  0.0.0.0/0
-# ACCEPT     tcp  --  0.0.0.0/0  0.0.0.0/0  state NEW tcp dpt:22
-# REJECT     all  --  0.0.0.0/0  0.0.0.0/0  reject-with icmp-host-prohibited
+Output:
+Chain INPUT (policy ACCEPT)
+target     prot opt source     destination
+ACCEPT     tcp  --  0.0.0.0/0  0.0.0.0/0  tcp dpt:6300
+ACCEPT     all  --  0.0.0.0/0  0.0.0.0/0  state RELATED,ESTABLISHED
+ACCEPT     icmp --  0.0.0.0/0  0.0.0.0/0
+ACCEPT     all  --  0.0.0.0/0  0.0.0.0/0
+ACCEPT     tcp  --  0.0.0.0/0  0.0.0.0/0  state NEW tcp dpt:22
+REJECT     all  --  0.0.0.0/0  0.0.0.0/0  reject-with icmp-host-prohibited
 
 9: Verification
 Local Verification on app server 1st.
@@ -122,7 +127,7 @@ The default Apache HTTP Server Test Page was returned that onfirms Apache is ser
 
 Remote Verification from Jump Host
 ```
-curl http://stapp01:6300
+curl http://app01:6300
 ```
 The same Apache Test Page HTML was returned.
 
@@ -143,7 +148,7 @@ External access (from jump host) to port 6300 was rejected
 
 11: Key Commands Reference
 # SSH to app server
-ssh tony@stapp01
+ssh user@app01
 
 # Check Apache status
 sudo systemctl status httpd
