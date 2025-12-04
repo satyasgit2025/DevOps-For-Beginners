@@ -12,8 +12,8 @@ sudo mkdir -p /etc/nginx/ssl
 sudo mv /tmp/xyz.crt /etc/nginx/ssl/
 sudo mv /tmp/xyz.key /etc/nginx/ssl/
 ```
-Set correct permissions:
-``
+-Set correct permissions:
+```
 sudo chmod 600 /etc/nginx/ssl/nautilus.key
 sudo chmod 644 /etc/nginx/ssl/nautilus.crt
 ```
@@ -21,7 +21,7 @@ sudo chmod 644 /etc/nginx/ssl/nautilus.crt
 ```
 sudo vi /etc/nginx/conf.d/ssl.conf
 ```
-Add the following configuration:
+-Add the following configuration:
 ```
 server {
     listen 443 ssl;
@@ -53,7 +53,8 @@ cat /usr/share/nginx/html/index.html
 ```
 curl -Ik https://<appserver-ip>/
 
-Expected output:
+-Expected output:
+```
 HTTP/1.1 200 OK
 Server: nginx
 ```
