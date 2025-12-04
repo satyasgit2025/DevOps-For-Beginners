@@ -52,12 +52,13 @@ cat /usr/share/nginx/html/index.html
 ✅ 6. Final Testing from the Jump Host
 ```
 curl -Ik https://<appserver-ip>/
-
+```
 -Expected output:
 ```
 HTTP/1.1 200 OK
 Server: nginx
 ```
+
 
 
 
