@@ -1,5 +1,4 @@
 ✅ Step 1 — SSH into LBR Host at which need configure nginx.
-✅ Step 2 — Install Nginx on LBR
 ```
 sudo yum install -y epel-release
 sudo yum install -y nginx
@@ -28,11 +27,11 @@ http {
         }
     }
 }
-
+```
 ✅ Step 4 — Test & Nginx configuration
 ```
 sudo nginx -t
-```
+
 -Output
 -syntax is ok
 -test is successful
@@ -40,7 +39,7 @@ sudo nginx -t
 -Reload
 ```
 sudo systemctl reload nginx
-````
+
 ✅ Step 5 — Verify Apache is running on all app servers
 ```
 sudo systemctl status httpd
@@ -112,7 +111,7 @@ http {
         }
     }
 }
-```
+
 
 
 
