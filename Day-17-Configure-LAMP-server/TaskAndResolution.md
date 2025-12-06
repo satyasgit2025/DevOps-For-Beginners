@@ -102,11 +102,11 @@ if ($conn->connect_error) {
 echo "Application is able to connect to the database using user app_user";
 ?>
 ```
-Restart Apache:
-``
+# Restart Apache:
+```
 sudo systemctl restart httpd
 ```
-Test locally:
+# Test locally:
 ```
 curl http://localhost:5000
 ```
