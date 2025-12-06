@@ -81,7 +81,7 @@ SHOW TABLES;
 ## **Step 7: Create the PHP file to test database connectivity (via Load Balancer and locally)**
 
 Navigate to the document root:
-``
+```
 cd /var/www/html
 sudo vi index.php
 ```
