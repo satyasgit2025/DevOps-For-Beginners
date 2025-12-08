@@ -1,9 +1,0 @@
-The system admins team needs to deploy a new application on App Server in Datacenter.
-They have some pre-requites to get ready that server for application deployment.
-Prepare the server as per requirements shared below: 
-1. Install and configure nginx on App Server. 
-2. On App Server there is a self signed SSL certificate and key present at location /tmp/nautilus.crt and /tmp/nautilus.key.
-   Move them to some appropriate location and deploy the same in Nginx. 
-3. Create an index.html file with content Welcome! under Nginx document root. 
-4. For final testing try to access the App Server link (either hostname or IP) from jump host using curl command.
-   For example curl -Ik https://<app-server-ip>/.
