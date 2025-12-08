@@ -101,7 +101,7 @@ curl http://stapp03:8099/index.php
 
 Expected output:
 
-Welcome to xFusionCorp Industries!
+Welcome!
 
 
 And full phpinfo() page for info.php.
